@@ -8,6 +8,7 @@ import Home from './pages/Home'
 import Dashboard from './pages/Dashboard'
 import Register from './components/Register'
 import Login from './components/Login'
+import FoodLog from './pages/FoogLog'
 
 function App() {
   return (
@@ -17,11 +18,12 @@ function App() {
         <main className="flex-grow p-4">
           <Routes>
             <Route path="/" element={<Home/>} />
-            <Route path="/add" element={<AddRecord />} />
+            <Route path="/addrecord" element={<AddRecord />} />
             <Route path="/records" element={<Records />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/foodlog" element={<FoodLog />} />
           </Routes>
         </main>
         <Footer />

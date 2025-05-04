@@ -30,7 +30,7 @@ const Navbar = () => {
         return;
       }
 
-      const response = await axios.get('http://localhost:8000/accounts/profile/', {
+      const response = await axios.get('http://localhost:8000/auth/profile/', {
         headers: {
           'Authorization': `Token ${token}`
         }
@@ -89,12 +89,12 @@ const Navbar = () => {
         {showProfileMenu && (
           <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded-md shadow-lg py-1 z-50">
             <Link
-              to="/profile"
+              to="/dashboard"
               className="block px-4 py-2 text-sm hover:bg-lime-600 hover:text-black"
             >
               <div className="flex items-center space-x-2">
                 <User size={16} />
-                <span>Profile</span>
+                <span>Dashboard</span>
               </div>
             </Link>
             <button

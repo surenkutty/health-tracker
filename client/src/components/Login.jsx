@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-//import InputComponent from "../Components/InputComponent";
-//import ButtonComponent from "../Components/ButtonComponent";
 import { Link, useNavigate } from "react-router-dom";
 import { LoadingSkeleton } from '../Components/LoadingSkeleton';
 
@@ -14,7 +12,6 @@ const Login = () => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    // Clear error when user starts typing
     if (error) setError("");
   };
 
@@ -22,15 +19,17 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
     setError("");
-    
+
     try {
-      const res = await axios.post('http://localhost:8000/accounts/login/', formData);
-      
+      const res = await axios.post('http://localhost:8000/auth/login/', formData);
+
       if (res.data && res.data.token) {
         localStorage.setItem('token', res.data.token);
         setLoginSuccess(true);
-        // Refresh the page to update auth state
-        window.location.href = '/';
+        setTimeout(() => {
+          navigate('/addrecord');
+          window.location.reload();
+        }, 1500);
       }
     } catch (err) {
       setError(err.response?.data?.non_field_errors?.[0] || "Invalid credentials");
@@ -48,10 +47,10 @@ const Login = () => {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-[500px] px-4">
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-        <h2 className="text-2xl font-bold text-center mb-6 text-gray-700">Login</h2>
-        
+    <div className="flex items-center justify-center min-h-[500px] px-4 bg-gradient-to-br from-lime-100">
+      <div className="bg-white p-6 rounded-2xl shadow-2xl max-w-md w-full">
+        <h2 className="text-3xl font-extrabold text-center mb-6 text-lime-500">Login</h2>
+
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
             {error}
@@ -59,55 +58,52 @@ const Login = () => {
         )}
 
         {loginSuccess && (
-          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+          <div className="bg-lime-100 border border-lime-500 text-lime-800 px-4 py-3 rounded mb-4">
             Login successful! Redirecting...
           </div>
         )}
-        
-        <form onSubmit={handleSubmit}>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
           <input
-            label="Email"
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
             placeholder="Enter your email"
             required
+            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-lime-500"
           />
-          
+
           <input
-            label="Password"
             type="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
             placeholder="Enter your password"
             required
+            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-lime-500"
           />
-          
-          <div className="flex items-center justify-between mb-6">
+
+          <div className="flex items-center justify-between text-sm text-gray-600">
             <label className="flex items-center">
-              <input type="checkbox" className="form-checkbox h-4 w-4 text-blue-500" />
-              <span className="ml-2 text-sm text-gray-600">Remember me</span>
+              <input type="checkbox" className="form-checkbox h-4 w-4 text-lime-600" />
+              <span className="ml-2">Remember me</span>
             </label>
-            
-            <a href="#" className="text-sm text-blue-500 hover:underline">
-              Forgot password?
-            </a>
+            <a href="#" className="text-lime-600 hover:underline">Forgot password?</a>
           </div>
-          
+
           <button
-            type="submit" 
-            className="w-full bg-blue-400 text-white py-3 rounded-lg hover:bg-blue-500 transition"
+            type="submit"
+            className="w-full bg-lime-500 text-black py-3 rounded-lg hover:bg-lime-600 hover:text-white transition duration-300"
             disabled={isLoading}
           >
             {isLoading ? "Logging in..." : "Login"}
           </button>
         </form>
-        
+
         <p className="text-center text-gray-600 mt-6">
           Don't have an account?{" "}
-          <Link to="/register" className="text-blue-500 font-semibold hover:underline">
+          <Link to="/register" className="text-lime-600 font-semibold hover:underline">
             Register
           </Link>
         </p>
