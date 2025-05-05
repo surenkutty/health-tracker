@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const AddRecord = () => {
   const [age, setAge] = useState('');
@@ -9,6 +10,8 @@ const AddRecord = () => {
   const [user, setUser] = useState(''); // renamed from username
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
+
+  //const {id} = useParams()
 
   // Fetch username using token and store in `user`
   useEffect(() => {
@@ -19,7 +22,7 @@ const AddRecord = () => {
             Authorization: `Token ${token}`,
           },
         });
-        setUser(response.data.username); // Save to `user` field
+        setUser(response.data); // Save to `user` field
       } catch (error) {
         console.error('Error fetching user:', error);
       }
@@ -34,7 +37,7 @@ const AddRecord = () => {
     e.preventDefault();
     try {
       await axios.post(
-        'http://localhost:8000/auth/health/',
+        'http://localhost:8000/auth/user-health/',
         {
           user: user, // key name is 'user'
           age: parseInt(age),
@@ -59,7 +62,7 @@ const AddRecord = () => {
   };
 
   return (
-    <div className="bg-lime-50 text-gray-800 p-6">
+    <div className=" text-gray-800 p-6">
       <h1 className="lg:text-2xl text-xl font-bold text-gray-700 text-center mb-8">
         Enter Your Health Info
       </h1>
@@ -72,7 +75,7 @@ const AddRecord = () => {
           <label className="block mb-1 font-base text-gray-600">Username</label>
           <input
             type="text"
-            value={user}
+            value={user.username}
             disabled
             className="w-full p-2 border rounded bg-gray-100 cursor-not-allowed"
           />

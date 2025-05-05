@@ -17,7 +17,8 @@ function Contact() {
   return (
     <section className="flex justify-center mt-12 mb-12 px-4">
       <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-4xl">
-        <h2 className="sm:text-4xl text-2xl font-bold text-center mb-8 text-gray-800">Contact Us</h2>
+        <h2 className="sm:text-4xl text-2xl font-bold text-center mb-8 text-gray-800">
+        <span className='text-lime-400'>C</span>ontact   <span className='text-lime-400'>U</span>s</h2>
         
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           
@@ -70,7 +71,7 @@ function Contact() {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-lime-500 text-black py-3 rounded hover:bg-lime-600 transition font-semibold"
+            className="w-full bg-lime-400 text-black py-3 rounded hover:bg-lime-500 transition font-semibold"
           >
             Send Message
           </button>

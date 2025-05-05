@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, User, LogOut, ChevronDown } from 'lucide-react';
 import axios from 'axios';
 
@@ -9,6 +9,7 @@ const Navbar = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [userProfile, setUserProfile] = useState(null);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const checkAuth = () => {
@@ -66,7 +67,7 @@ const Navbar = () => {
     if (!isAuthenticated) {
       return (
         <Link to="/login">
-          <button className="bg-lime-500 hover:bg-lime-600 text-black font-semibold px-4 py-2 rounded">
+          <button className="bg-lime-400 hover:bg-lime-600 text-black font-semibold px-4 py-2 rounded">
             Login
           </button>
         </Link>
@@ -112,11 +113,22 @@ const Navbar = () => {
 
   const navItems = [
     { name: 'Home', link: '/' },
-    { name: 'Offers', link: '/offers' },
-    { name: 'Categories', link: '/categories' },
-    { name: 'About', link: '/aboutpage' },
+    { name: 'Calculate Calories', link: '/foodlog' },
     { name: 'Contact us', link: '/contact' },
   ];
+
+  const handleNavigation = (itemName, itemLink) => {
+    if (itemName === 'Calculate Calories') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        navigate(itemLink);
+      } else {
+        navigate('/login');
+      }
+    } else {
+      navigate(itemLink);
+    }
+  };
 
   return (
     <>
@@ -124,7 +136,7 @@ const Navbar = () => {
         <div className="max-w-7xl mx-auto flex items-center justify-between h-16 px-4 sm:px-6">
           <Link to="/" className="flex-shrink-0 z-10">
             <h1 className="font-bold text-2xl sm:text-xl md:text-2xl lg:text-3xl text-black">
-              Health Tracker
+              <span className='text-lime-400'>H</span>ealth <span className='text-lime-400'>T</span>racker
             </h1>
           </Link>
 
@@ -132,12 +144,12 @@ const Navbar = () => {
             <ul className="flex items-center gap-4 lg:gap-6">
               {navItems.map((item, idx) => (
                 <li key={idx}>
-                  <Link
-                    to={item.link}
+                  <button
+                    onClick={() => handleNavigation(item.name, item.link)}
                     className="text-black hover:text-black transition-colors text-sm lg:text-base font-medium"
                   >
                     {item.name}
-                  </Link>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -176,13 +188,15 @@ const Navbar = () => {
                 <ul className="p-4 space-y-2">
                   {navItems.map((item, idx) => (
                     <li key={idx}>
-                      <Link
-                        to={item.link}
-                        onClick={toggleSidebar}
-                        className="flex items-center px-4 py-3 rounded-lg hover:bg-lime-600 hover:text-black"
+                      <button
+                        onClick={() => {
+                          toggleSidebar();
+                          handleNavigation(item.name, item.link);
+                        }}
+                        className="flex items-center px-4 py-3 rounded-lg hover:bg-lime-600 hover:text-black w-full text-left"
                       >
                         {item.name}
-                      </Link>
+                      </button>
                     </li>
                   ))}
                 </ul>
@@ -196,7 +210,7 @@ const Navbar = () => {
         </div>
       )}
 
-      <div className="h-16" /> {/* Spacer */}
+      <div className="h-16" /> {/* Spacer for fixed navbar */}
     </>
   );
 };

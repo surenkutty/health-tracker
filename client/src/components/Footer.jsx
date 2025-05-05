@@ -15,7 +15,7 @@ const Footer = () => {
       <div className="px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-black">Dindigul City</h1>
+          <h1 className="text-2xl font-bold text-black">Health Tracker</h1>
           <p className="text-sm text-gray-600">Your Ultimate Guide</p>
         </div>
 
@@ -45,7 +45,7 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold mb-3 text-black">Quick Menu</h3>
             <ul className="space-y-2 text-gray-700">
-              {["Shops", "Services", "Education", "Hospitals", "Hotels"].map((item, i) => (
+              {["Home", "Add record", "Calculate calories",  "Contact us"].map((item, i) => (
                 <li key={i}>
                   <a href="/categories" className="hover:underline">
                     {item}
